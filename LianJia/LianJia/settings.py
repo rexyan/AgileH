@@ -138,11 +138,11 @@ XPATH_ERSHOUFANG_ERSHOUFANG_TOTALPRICE_UNIT = 'div/div[@class="priceInfo"]/div[@
 XPATH_ERSHOUFANG_ERSHOUFANG_UNITPRICE = 'div/div[@class="priceInfo"]/div[@class="unitPrice"]/span/text()'
 
 XPATH_ERSHOUFANG_VALUE_ITEM = {
-    "ershoufang_region": XPATH_ERSHOUFANG_ERSHOUFANG_REGION,
-    "ershoufang_house_info": XPATH_ERSHOUFANG_ERSHOUFANG_HOUSE_INFO,
-    "ershoufang_housu_type": XPATH_ERSHOUFANG_ERSHOUFANG_HOUSU_TYPE,
-    "ershoufang_position": XPATH_ERSHOUFANG_ERSHOUFANG_POSITION,
-    "ershoufang_totalprice": XPATH_ERSHOUFANG_ERSHOUFANG_TOTALPRICE,
-    "ershoufang_totalprice_unit": XPATH_ERSHOUFANG_ERSHOUFANG_TOTALPRICE_UNIT,
-    "ershoufang_unitprice": XPATH_ERSHOUFANG_ERSHOUFANG_UNITPRICE,
+    "ef_region": XPATH_ERSHOUFANG_ERSHOUFANG_REGION,  # 地区
+    "ef_house_info": XPATH_ERSHOUFANG_ERSHOUFANG_HOUSE_INFO,  # 二手房信息
+    "ef_house_type": XPATH_ERSHOUFANG_ERSHOUFANG_HOUSU_TYPE,  # 二手房类型
+    "ef_position": XPATH_ERSHOUFANG_ERSHOUFANG_POSITION,  # 二手房位置
+    "ef_total_price": XPATH_ERSHOUFANG_ERSHOUFANG_TOTALPRICE,  # 二手房总价
+    "ef_total_price_unit": XPATH_ERSHOUFANG_ERSHOUFANG_TOTALPRICE_UNIT,  # 二手房总价单位
+    "ef_unit_price": XPATH_ERSHOUFANG_ERSHOUFANG_UNITPRICE,  # 二手房单价
 }
