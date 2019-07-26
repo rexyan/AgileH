@@ -1,6 +1,9 @@
 from scrapy import cmdline
 
-
-spider_name = 'LianJiaLouPan'
-cmd = f'scrapy crawl {spider_name}'
-cmdline.execute(cmd.split())
+task_list = [
+    "LianJiaErShouFang",
+    "LianJiaLouPan"
+]
+for task in task_list:
+    cmd = f'scrapy crawl {task}'
+    cmdline.execute(cmd.split())

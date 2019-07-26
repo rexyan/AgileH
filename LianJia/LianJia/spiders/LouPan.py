@@ -1,13 +1,10 @@
-from scrapy.http import Request
-import scrapy
+from .LianJIaBaseSpider import LianJiaBaseSpider, Request
 
 from ..settings import *
 
 
-class LianJiaLouPanSpider(scrapy.Spider):
+class LianJiaLouPanSpider(LianJiaBaseSpider):
     name = "LianJiaLouPan"
-    allowed_domains = ["lianjia.com"]
-    protocol = "https:"
     loupan_suffix = "/loupan/"
 
     # 从某个城市入手，获取楼盘信息，如果从 https://www.lianjia.com/city/ 获取，有些城市没有楼盘，会出现异常
@@ -27,23 +24,23 @@ class LianJiaLouPanSpider(scrapy.Spider):
         :return:
         """
         # 获取城市名称
-        city_name = response.xpath(XPATH_CITY_NAME).extract()
+        city_name = response.xpath(XPATH_LOUPAN_CITY_NAME).extract()
 
         # 城市主页
-        city_urls = response.xpath(XPATH_CITY_URLS).extract()
+        city_urls = response.xpath(XPATH_LOUPAN_CITY_URLS).extract()
 
         city_data = dict(zip(city_name, city_urls))
         for name, urls in city_data.items():
             loupan_url = self.protocol + urls + self.loupan_suffix
-            yield Request(loupan_url, callback=self.get_city_detail_info, meta={'loupan_url': loupan_url})
+            yield Request(loupan_url, callback=self.get_loupan_city_detail_info, meta={'loupan_url': loupan_url})
 
-    def get_city_detail_info(self, response):
+    def get_loupan_city_detail_info(self, response):
         """
         获取某个城市楼盘分页信息，进行遍历请求
         :param response:
         :return:
         """
-        max_page = response.xpath(XPATH_MAX_PAGE).extract()
+        max_page = response.xpath(XPATH_LOUPAN_MAX_PAGE).extract()
         max_num = int(max_page[0])
         for i in range(1, max_num):
             url = response.meta['loupan_url'] + 'pg' + str(i)

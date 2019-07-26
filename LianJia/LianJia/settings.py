@@ -89,11 +89,12 @@ DEFAULT_REQUEST_HEADERS = {
 
 
 # 用户自定义设置
-## xpath 解析规则设置
-XPATH_CITY_NAME = '//div[contains(@class,"city-enum") and contains(@class,"fl")]/a/text()'
-XPATH_CITY_URLS = '//div[contains(@class,"city-enum") and contains(@class,"fl")]/a/@href'
-XPATH_MAX_PAGE = '//div[@class="page-box"]/@data-total-count'
-# XPATH_MAX_PAGE = '//div[@class="page-box"]//a[][last()]/text()'
+# loupan xpath 解析规则设置
+
+XPATH_LOUPAN_CITY_NAME = '//div[contains(@class,"city-enum") and contains(@class,"fl")]/a/text()'
+XPATH_LOUPAN_CITY_URLS = '//div[contains(@class,"city-enum") and contains(@class,"fl")]/a/@href'
+XPATH_LOUPAN_MAX_PAGE = '//div[@class="page-box"]/@data-total-count'
+# XPATH_LOUPAN_MAX_PAGE = '//div[@class="page-box"]//a[][last()]/text()'
 XPATH_LOUPAN_DETAIL = '//ul[@class="resblock-list-wrapper"]/li'
 XPATH_LOUPAN_NULL_DATA = '//div[contains(@class,"no-result-wrapper") and contains(@class,"show")]'
 
@@ -119,4 +120,29 @@ XPATH_LOUPAN_VALUE_ITEM = {
     "loupan_mean_unit": XPATH_LOUPAN_MEAN_UNIT,  # 楼盘价格单位
     "loupan_start_price": XPATH_LOUPAN_START_PRICE,  # 楼盘起始价格
     "loupan_tags": XPATH_LOUPAN_TAGS  # 楼盘标签
+}
+
+# ershoufang xpath 解析规则设置
+
+XPATH_ERSHOUFANG_CITY_NAME = '//div[@class="city_province"]/ul/li/a/text()'
+XPATH_ERSHOUFANG_CITY_URLS = '//div[@class="city_province"]/ul/li/a/@href'
+XPATH_ERSHOUFANG_PAGE_INFO = '//div[contains(@class,"page-box") and contains(@class,"house-lst-page-box")]/@page-data'
+XPATH_ERSHOUFANG_ERSHOUFANG_DOM = '//ul[@class="sellListContent"]/li'
+
+XPATH_ERSHOUFANG_ERSHOUFANG_REGION = 'div/div[@class="address"]/div[@class="houseInfo"]/a/text()'
+XPATH_ERSHOUFANG_ERSHOUFANG_HOUSE_INFO = 'div/div[@class="address"]/div[@class="houseInfo"]/text()'
+XPATH_ERSHOUFANG_ERSHOUFANG_HOUSU_TYPE = 'div/div[@class="flood"]/div[@class="positionInfo"]/text()'
+XPATH_ERSHOUFANG_ERSHOUFANG_POSITION = 'div/div[@class="flood"]/div[@class="positionInfo"]/a/text()'
+XPATH_ERSHOUFANG_ERSHOUFANG_TOTALPRICE = 'div/div[@class="priceInfo"]/div[@class="totalPrice"]/span/text()'
+XPATH_ERSHOUFANG_ERSHOUFANG_TOTALPRICE_UNIT = 'div/div[@class="priceInfo"]/div[@class="totalPrice"]/text()'
+XPATH_ERSHOUFANG_ERSHOUFANG_UNITPRICE = 'div/div[@class="priceInfo"]/div[@class="unitPrice"]/span/text()'
+
+XPATH_ERSHOUFANG_VALUE_ITEM = {
+    "ershoufang_region": XPATH_ERSHOUFANG_ERSHOUFANG_REGION,
+    "ershoufang_house_info": XPATH_ERSHOUFANG_ERSHOUFANG_HOUSE_INFO,
+    "ershoufang_housu_type": XPATH_ERSHOUFANG_ERSHOUFANG_HOUSU_TYPE,
+    "ershoufang_position": XPATH_ERSHOUFANG_ERSHOUFANG_POSITION,
+    "ershoufang_totalprice": XPATH_ERSHOUFANG_ERSHOUFANG_TOTALPRICE,
+    "ershoufang_totalprice_unit": XPATH_ERSHOUFANG_ERSHOUFANG_TOTALPRICE_UNIT,
+    "ershoufang_unitprice": XPATH_ERSHOUFANG_ERSHOUFANG_UNITPRICE,
 }
