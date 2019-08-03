@@ -62,9 +62,10 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    'LianJia.pipelines.LianjiaPipeline': 300,
-# }
+# 启用 pipeline
+ITEM_PIPELINES = {
+    'LianJia.pipelines.ElasticSearchPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -146,3 +147,112 @@ XPATH_ERSHOUFANG_VALUE_ITEM = {
     "ef_total_price_unit": XPATH_ERSHOUFANG_ERSHOUFANG_TOTALPRICE_UNIT,  # 二手房总价单位
     "ef_unit_price": XPATH_ERSHOUFANG_ERSHOUFANG_UNITPRICE,  # 二手房单价
 }
+
+# ES
+ES_MAPPINGS = {
+    "mappings": {
+        "lou_pan": {
+            "properties": {
+                "loupan_name": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                },
+                "loupan_address": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "loupan_location": {
+                    "type": "string",
+                    "index": "analyzed",
+                    "fields": {
+                        "non_pollution": {
+                            "type": "string",
+                            "index": "not_analyzed",
+                        }
+                    }
+                },
+                "loupan_room_type": {
+                    "type": "string",
+                    "index": "not_analyzed",
+                },
+                "loupan_room_num": {
+                    "type": "string",
+                },
+                "loupan_area_range": {
+                    "type": "string",
+                },
+                "loupan_mean_price": {
+                    "type": "string",
+                },
+                "loupan_mean_unit": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "loupan_start_price": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "loupan_tags": {
+                    "type": "string",
+                },
+                "spider_city": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "spider_time": {
+                    "type": "date",
+                    "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd"
+                },
+                "spider_url": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                }
+            }
+        },
+        "ershoufang": {
+            "properties": {
+                "ef_region": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "ef_house_info": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "ef_house_type": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "ef_position": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "ef_total_price": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "ef_total_price_unit": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "ef_unit_price": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "spider_city": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "spider_time": {
+                    "type": "date",
+                    "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd"
+                },
+                "spider_url": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                }
+            }
+        }
+    }
+}
+

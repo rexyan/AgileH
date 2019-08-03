@@ -1,6 +1,8 @@
-from .LianJIaBaseSpider import LianJiaBaseSpider, Request
+import datetime
 
+from .LianJIaBaseSpider import LianJiaBaseSpider, Request
 from ..settings import *
+from ..items import LianjiaLouPanItem
 
 
 class LianJiaLouPanSpider(LianJiaBaseSpider):
@@ -9,10 +11,11 @@ class LianJiaLouPanSpider(LianJiaBaseSpider):
 
     # 从某个城市入手，获取楼盘信息，如果从 https://www.lianjia.com/city/ 获取，有些城市没有楼盘，会出现异常
     start_urls = 'https://bj.fang.lianjia.com' + loupan_suffix
+    data_item = LianjiaLouPanItem()
 
     def start_requests(self):
         """
-        这是一个重载函数，它的作用是发出第一个Request请求
+        这是一个重载函数，它的作用是发出第一个请求
         :return:
         """
         yield Request(self.start_urls)
@@ -32,7 +35,14 @@ class LianJiaLouPanSpider(LianJiaBaseSpider):
         city_data = dict(zip(city_name, city_urls))
         for name, urls in city_data.items():
             loupan_url = self.protocol + urls + self.loupan_suffix
-            yield Request(loupan_url, callback=self.get_loupan_city_detail_info, meta={'loupan_url': loupan_url})
+            yield Request(
+                loupan_url,
+                callback=self.get_loupan_city_detail_info,
+                meta={
+                    'loupan_url': loupan_url,
+                    "spider_city": name
+                }
+            )
 
     def get_loupan_city_detail_info(self, response):
         """
@@ -44,10 +54,17 @@ class LianJiaLouPanSpider(LianJiaBaseSpider):
         max_num = int(max_page[0])
         for i in range(1, max_num):
             url = response.meta['loupan_url'] + 'pg' + str(i)
-            yield Request(url, callback=self.get_loupan_detail_info, priority=max_num - i)
+            yield Request(
+                url,
+                callback=self.get_loupan_detail_info,
+                priority=max_num - i,
+                meta={
+                    "spider_city": response.meta['spider_city'],
+                    "spider_url": url
+                }
+            )
 
-    @staticmethod
-    def get_loupan_detail_info(response):
+    def get_loupan_detail_info(self, response):
         """
         获取某个城市某页楼盘具体数据
         :param response:
@@ -60,9 +77,11 @@ class LianJiaLouPanSpider(LianJiaBaseSpider):
         if null_data:
             return
 
-        print("null_data", null_data)
         for loupan_dom_item in loupan_dom:
-            _result = dict()
             for ITEM_NAME, VALUE_ITEM in XPATH_LOUPAN_VALUE_ITEM.items():
-                _result.update({ITEM_NAME: loupan_dom_item.xpath(VALUE_ITEM).extract()})
-            print(_result)
+                self.data_item[ITEM_NAME] = loupan_dom_item.xpath(VALUE_ITEM).extract()
+            self.data_item["spider_time"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            self.data_item["spider_url"] = response.meta['spider_url']
+            self.data_item["spider_city"] = response.meta['spider_city']
+            print(self.data_item)
+            yield self.data_item

@@ -1,16 +1,19 @@
 import json
+import datetime
 
 from .LianJIaBaseSpider import LianJiaBaseSpider, Request
 from ..settings import *
+from ..items import LianjiaErShouFangItem
 
 
-class LianJiaLouPanSpider(LianJiaBaseSpider):
+class LianErShouFangSpider(LianJiaBaseSpider):
     name = "LianJiaErShouFang"
     ef_suffix = "/ershoufang/"
 
     # 获取二手房城市信息
     start_urls = 'https://www.lianjia.com/city/'
     ef = "ef_url"
+    data_item = LianjiaErShouFangItem()
 
     def start_requests(self):
         """
@@ -34,7 +37,14 @@ class LianJiaLouPanSpider(LianJiaBaseSpider):
         city_data = dict(zip(city_name, city_urls))
         for name, urls in city_data.items():
             ef = urls + self.ef_suffix
-            yield Request(ef, callback=self.get_ef_city_detail_info, meta={self.ef: ef})
+            yield Request(
+                ef,
+                callback=self.get_ef_city_detail_info,
+                meta={
+                    self.ef: ef,
+                    "spider_city": name
+                }
+            )
 
     def get_ef_city_detail_info(self, response):
         """
@@ -48,10 +58,17 @@ class LianJiaLouPanSpider(LianJiaBaseSpider):
             max_num = json.loads(page_info[0]).get("totalPage", 0)
         for i in range(1, max_num):
             url = response.meta[self.ef] + 'pg' + str(i)
-            yield Request(url, callback=self.get_ef_detail_info, priority=max_num - i)
+            yield Request(
+                url,
+                callback=self.get_ef_detail_info,
+                priority=max_num - i,
+                meta={
+                    "spider_url": url,
+                    "spider_city": response.meta["spider_city"]
+                }
+            )
 
-    @staticmethod
-    def get_ef_detail_info(response):
+    def get_ef_detail_info(self, response):
         """
         获取二手房详细信息
         :param response:
@@ -59,7 +76,9 @@ class LianJiaLouPanSpider(LianJiaBaseSpider):
         """
         ef_dom = response.xpath(XPATH_ERSHOUFANG_ERSHOUFANG_DOM)
         for ef_dom_item in ef_dom:
-            _result = {}
             for ITEM_NAME, VALUE_ITEM in XPATH_ERSHOUFANG_VALUE_ITEM.items():
-                _result.update({ITEM_NAME: ef_dom_item.xpath(VALUE_ITEM).extract()})
-            print(_result)
+                self.data_item[ITEM_NAME] = ef_dom_item.xpath(VALUE_ITEM).extract()
+            self.data_item["spider_time"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            self.data_item["spider_url"] = response.meta["spider_url"]
+            self.data_item["spider_city"] = response.meta["spider_city"]
+            yield self.data_item

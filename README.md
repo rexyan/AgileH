@@ -1,6 +1,9 @@
 # AgileH
 爬取链家房价信息（目前支持获取全国楼盘和二手房数据）
 
+### 准备
+安装 ES，并运行`Lianjia/ES/init.py` 文件创建 ES 索引。
+
 ### 运行
 1. 安装依赖  `pip install -r requirements.txt`
 2. `python run.py`
