@@ -9,8 +9,14 @@
 2. `python run.py`
 默认会先执行二手房的爬取，后执行楼盘的爬取，可在 `run.py` 中进行顺序调整
 
+### 结果
+测试爬取楼盘数据 115064条。二手房数据 288060条。共 403124 条数据。
+![](https://raw.githubusercontent.com/rexyan/warehouse/master/20190803191846.png)
+
 ### 规划
 + [x] 数据清洗
 + [x] 数据保存至 ES
 + [ ] 修改运行方式，添加 `spiderkeeper`
 + [ ] 图表分析
+
+
