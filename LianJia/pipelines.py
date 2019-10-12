@@ -7,23 +7,24 @@
 
 import copy
 from elasticsearch import Elasticsearch
+from LianJia.settings import ES_CONFIG
 
 
 class ElasticSearchPipeline(object):
-    def __init__(self, host, database, user, password, port):
+    def __init__(self, host, user, password, port, spider_name):
         # 连接 es
-        self.es = Elasticsearch(["127.0.0.1"])
-        self.INDEX_NAME = 'lianjia'
+        self.es = Elasticsearch([host])
+        self.INDEX_NAME = spider_name
 
     @classmethod
     def from_crawler(cls, crawler):
         # 读取配置文件，读取 es 配置
         return cls(
-            host=crawler.settings.get('MYSQL_HOST'),
-            database=crawler.settings.get('MYSQL_DATABASE'),
-            user=crawler.settings.get('MYSQL_USER'),
-            password=crawler.settings.get('MYSQL_PASSWORD'),
-            port=crawler.settings.get('MYSQL_PORT'),
+            host=ES_CONFIG.get("address"),
+            user=ES_CONFIG.get("username"),
+            password=ES_CONFIG.get("password"),
+            port=ES_CONFIG.get("port"),
+            spider_name=crawler.spider.name.lower()
         )
 
     def open_spider(self, spider):
@@ -56,21 +57,31 @@ class ElasticSearchPipeline(object):
 
             # 清洗数据
             item_clean_data["loupan_name"] = item_data["loupan_name"][0] if len(item_data["loupan_name"]) > 0 else ""
-            item_clean_data["loupan_location"] = item_data["loupan_location"][0] if len(item_data["loupan_location"]) > 0 else ""
-            item_clean_data["loupan_room_type"] = item_data["loupan_room_type"][0] if len(item_data["loupan_room_type"]) > 0 else ""
-            item_clean_data["loupan_room_num"] = item_data["loupan_room_num"] if len(item_data["loupan_room_num"]) > 0 else []
-            item_clean_data["loupan_area_range"] = item_data["loupan_area_range"][0].replace("建面", "").replace("㎡", "").replace(" ", "").split("-") if len(item_data["loupan_area_range"]) > 0 else ""
-            item_clean_data["loupan_mean_price"] = item_data["loupan_mean_price"][0] if len(item_data["loupan_mean_price"]) > 0 else ""
-            item_clean_data["loupan_mean_unit"] = item_data["loupan_mean_unit"][0].replace("\xa0", "") if len(item_data["loupan_mean_unit"]) > 0 else ""
-            item_clean_data["loupan_start_price"] = item_data["loupan_start_price"][0] if len(item_data["loupan_start_price"]) > 0 else ""
+            item_clean_data["loupan_location"] = item_data["loupan_location"][0] if len(
+                item_data["loupan_location"]) > 0 else ""
+            item_clean_data["loupan_room_type"] = item_data["loupan_room_type"][0] if len(
+                item_data["loupan_room_type"]) > 0 else ""
+            item_clean_data["loupan_room_num"] = item_data["loupan_room_num"] if len(
+                item_data["loupan_room_num"]) > 0 else []
+            item_clean_data["loupan_area_range"] = item_data["loupan_area_range"][0].replace("建面", "").replace("㎡",
+                                                                                                               "").replace(
+                " ", "").split("-") if len(item_data["loupan_area_range"]) > 0 else ""
+            item_clean_data["loupan_mean_price"] = item_data["loupan_mean_price"][0] if len(
+                item_data["loupan_mean_price"]) > 0 else ""
+            item_clean_data["loupan_mean_unit"] = item_data["loupan_mean_unit"][0].replace("\xa0", "") if len(
+                item_data["loupan_mean_unit"]) > 0 else ""
+            item_clean_data["loupan_start_price"] = item_data["loupan_start_price"][0] if len(
+                item_data["loupan_start_price"]) > 0 else ""
         elif spider_name == "LianJiaErShouFang":
             # 设置 es 类型
             doc_type = "ershoufang"
 
             # 清洗数据
             item_clean_data["ef_region"] = item_data["ef_region"][0].replace(" ", "")
-            item_clean_data["ef_house_info"] = [x.replace(" ", "") for x in item_data["ef_house_info"][0].replace(" ", "").split("|") if x]
-            item_clean_data["ef_house_type"] = item_data["ef_house_type"][0].replace("-", "").replace(" ", "").split("|")
+            item_clean_data["ef_house_info"] = [x.replace(" ", "") for x in
+                                                item_data["ef_house_info"][0].replace(" ", "").split("|") if x]
+            item_clean_data["ef_house_type"] = item_data["ef_house_type"][0].replace("-", "").replace(" ", "").split(
+                "|")
             item_clean_data["ef_position"] = item_data["ef_position"][0].replace(" ", "")
             item_clean_data["ef_total_price"] = item_data["ef_total_price"][0].replace(" ", "")
             item_clean_data["ef_total_price_unit"] = item_data["ef_total_price_unit"][0].replace(" ", "")

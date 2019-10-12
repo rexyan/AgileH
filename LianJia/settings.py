@@ -148,111 +148,122 @@ XPATH_ERSHOUFANG_VALUE_ITEM = {
     "ef_unit_price": XPATH_ERSHOUFANG_ERSHOUFANG_UNITPRICE,  # 二手房单价
 }
 
-# ES
-ES_MAPPINGS = {
+ES_LOUPAN_MAPPING = {
     "mappings": {
         "lou_pan": {
             "properties": {
                 "loupan_name": {
-                    "type": "string",
-                    "index": "not_analyzed",
+                    "type": "keyword",
+                    "index": False,
                 },
                 "loupan_address": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": False
                 },
                 "loupan_location": {
-                    "type": "string",
-                    "index": "analyzed",
+                    "type": "keyword",
+                    "index": True,
                     "fields": {
                         "non_pollution": {
-                            "type": "string",
-                            "index": "not_analyzed",
+                            "type": "keyword",
+                            "index": False,
                         }
                     }
                 },
                 "loupan_room_type": {
-                    "type": "string",
-                    "index": "not_analyzed",
+                    "type": "keyword",
+                    "index": False,
                 },
                 "loupan_room_num": {
-                    "type": "string",
+                    "type": "keyword",
                 },
                 "loupan_area_range": {
-                    "type": "string",
+                    "type": "keyword",
                 },
                 "loupan_mean_price": {
-                    "type": "string",
+                    "type": "keyword",
                 },
                 "loupan_mean_unit": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": False
                 },
                 "loupan_start_price": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": False
                 },
                 "loupan_tags": {
-                    "type": "string",
+                    "type": "keyword",
                 },
                 "spider_city": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": False
                 },
                 "spider_time": {
                     "type": "date",
                     "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd"
                 },
                 "spider_url": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                }
-            }
-        },
-        "ershoufang": {
-            "properties": {
-                "ef_region": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "ef_house_info": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "ef_house_type": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "ef_position": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "ef_total_price": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "ef_total_price_unit": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "ef_unit_price": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "spider_city": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "spider_time": {
-                    "type": "date",
-                    "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd"
-                },
-                "spider_url": {
-                    "type": "string",
-                    "index": "not_analyzed"
+                    "type": "keyword",
+                    "index": False
                 }
             }
         }
     }
 }
 
+ES_ERSHOUFANG_MAPPING = {
+    "mappings": {
+        "ershoufang": {
+            "properties": {
+                "ef_region": {
+                    "type": "keyword",
+                    "index": False
+                },
+                "ef_house_info": {
+                    "type": "keyword",
+                    "index": False
+                },
+                "ef_house_type": {
+                    "type": "keyword",
+                    "index": False
+                },
+                "ef_position": {
+                    "type": "keyword",
+                    "index": False
+                },
+                "ef_total_price": {
+                    "type": "keyword",
+                    "index": False
+                },
+                "ef_total_price_unit": {
+                    "type": "keyword",
+                    "index": False
+                },
+                "ef_unit_price": {
+                    "type": "keyword",
+                    "index": False
+                },
+                "spider_city": {
+                    "type": "keyword",
+                    "index": False
+                },
+                "spider_time": {
+                    "type": "date",
+                    "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd"
+                },
+                "spider_url": {
+                    "type": "keyword",
+                    "index": False
+                }
+            }
+        }
+    }
+}
+
+# ES 信息
+ES_CONFIG = {
+    "port": "9200",
+    "address": "192.168.16.161",
+    "password": "",
+    "username": ""
+}
