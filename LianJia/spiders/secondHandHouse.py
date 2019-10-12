@@ -1,7 +1,7 @@
 import json
 import datetime
 
-from .LianJIaBaseSpider import LianJiaBaseSpider, Request
+from .BaseSpider import LianJiaBaseSpider, Request
 from ..settings import *
 from ..items import LianjiaErShouFangItem
 
