@@ -172,7 +172,6 @@ ES_LOUPAN_MAPPING = {
                 },
                 "loupan_room_type": {
                     "type": "keyword",
-                    "index": False,
                 },
                 "loupan_room_num": {
                     "type": "keyword",
@@ -195,8 +194,7 @@ ES_LOUPAN_MAPPING = {
                     "type": "keyword",
                 },
                 "spider_city": {
-                    "type": "keyword",
-                    "index": False
+                    "type": "keyword"
                 },
                 "spider_time": {
                     "type": "date",
